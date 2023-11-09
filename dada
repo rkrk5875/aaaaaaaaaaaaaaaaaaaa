@@ -1,0 +1,450 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "Zombie City",IntroEnabled = false})
+local Tab = Window:MakeTab({
+	Name = "Team",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local Section = Tab:AddSection({
+	Name = "Team"
+})
+Tab:AddTextbox({
+	Name = "팀 이름",
+	Default = "",
+	TextDisappear = true,
+	Callback = function(Value)
+		_G.team = Value
+	end	  
+})
+Tab:AddButton({
+	Name = "팀 변경",
+	Callback = function()
+      		for _,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.ClassGui.Frame.ClassFrame:GetChildren()) do 
+    pcall(function()
+        if v.Text == _G.team then
+            v.ChangeTeam.RemoteEvent:FireServer()
+            end
+        end)
+    end
+  	end    
+})
+local Tab = Window:MakeTab({
+	Name = "gun",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local Section = Tab:AddSection({
+	Name = "gun"
+})
+Tab:AddButton({
+	Name = "OP GUN",
+	Callback = function()
+	    if _G.OPGUN == nil then
+	        _G.OPGUN = true
+      	local mt = getrawmetatable(game)
+setreadonly(mt, false)
+local index = mt.__index
+
+local Mods = {
+    ["RecoilMax"] = 0,
+    ["RecoilMin"] = 0,
+    ["AmmoCapacity"] = math.huge,
+    ["ShotCooldown"] = 0,
+    ["CurrentAmmo"] = math.huge,
+}
+
+mt.__index = function(a,b)
+    if Mods[tostring(a)] then
+        if tostring(b) == "Value" then
+            return Mods[tostring(a)]
+        end
+    end
+    return index(a,b)
+end
+	    end    
+  end
+})
+local Tab = Window:MakeTab({
+	Name = "Player",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local Section = Tab:AddSection({
+	Name = "Player"
+})
+Tab:AddToggle({
+	Name = "허기,갈증,스테미나,감염도를 해결",
+	Default = false,
+	Callback = function(Value)
+		_G.infs = Value
+while _G.infs do task.wait(.1)
+    pcall(function()
+ game:GetService("Players").LocalPlayer.Status.Stamina.Value = 100
+local args = {
+    [1] = game:GetService("Players").LocalPlayer.Status.Hunger,
+    [2] = 100
+}
+
+game:GetService("Players").LocalPlayer.Character.StatusControl.LimitEvent:FireServer(unpack(args))
+local args = {
+    [1] = game:GetService("Players").LocalPlayer.Status.Infection,
+    [2] = 0
+}
+
+game:GetService("Players").LocalPlayer.Character.StatusControl.LimitEvent:FireServer(unpack(args))
+local args = {
+    [1] = game:GetService("Players").LocalPlayer.Status.Thirst,
+    [2] = 100
+}
+
+game:GetService("Players").LocalPlayer.Character.StatusControl.LimitEvent:FireServer(unpack(args))
+end)
+end
+	end    
+})
+Tab:AddSlider({
+	Name = "speed",
+	Min = 0,
+	Max = 28,
+	Default = 28,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "bananas",
+	Callback = function(Value)
+		_G.Val = Value
+	end    
+})
+Tab:AddToggle({
+	Name = "스피드 적용",
+	Default = false,
+	Callback = function(Value)
+	    _G.speed = Value
+	    while _G.speed do task.wait(.1)
+	        pcall(function()
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = _G.Val
+		end)
+		end
+	end    
+})
+Tab:AddButton({
+	Name = "Tool give",
+	Callback = function()
+hum = game.Players.LocalPlayer.Character.Humanoid
+hum.Parent = nil 
+hum.Parent = game.Players.LocalPlayer.Character
+  	end    
+})
+Tab:AddButton({
+	Name = "god mode and anti cheat X",
+	Callback = function()
+char = game.Players.LocalPlayer.Character
+charp = char.Parent
+char.Parent = nil 
+game.Players.LocalPlayer.Character.Humanoid.RootPart:Destroy()
+char.Parent = charp
+end})
+Tab:AddToggle({
+	Name = "fling all",
+	Default = false,
+	Callback = function(Value)
+		_G.fling = Value
+while _G.fling do task.wait()
+    pcall(function()
+for i, v in pairs(game.Players:GetPlayers()) do
+    if v ~= game.Players.LocalPlayer then
+        pcall(function()
+            for i=1,15 do 
+game.Players.LocalPlayer.Character.Humanoid.RootPart.Velocity = Vector3.new(5000,5000,5000)
+game.Players.LocalPlayer.Character.Humanoid.RootPart.CFrame = v.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1.5,0)
+game.Players.LocalPlayer.Character.Humanoid.Sit = false
+task.wait()
+end
+end)
+end
+end
+end)
+end
+task.wait(0.1)
+game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(1,1,1)
+		end
+		})
+		Tab:AddButton({
+	Name = "kick plr",
+	Callback = function()
+	inf = math.huge
+	plr = nil
+for i, v in pairs(game.Players:GetPlayers()) do
+    if v ~= game.Players.LocalPlayer then
+        pcall(function()
+        local m = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).magnitude
+        if m <= inf and m <= 7 then
+        plr = v         
+        inf = m
+        end
+        end)
+    end
+end
+if plr then 
+        fireclickdetector(game.Players.LocalPlayer.PlayerGui.Model["Oreo_Mint"].ToolGiver.ClickDetector)
+    task.wait(.25)
+    game.Players.LocalPlayer.Character.Humanoid.RootPart.CFrame *= CFrame.new(0,9999,0)
+local h = game.Players.LocalPlayer.Character.Humanoid
+h:UnequipTools()
+h.Parent = nil 
+h.Parent = game.Players.LocalPlayer.Character
+for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+		if v:IsA("Tool") and v:FindFirstChild("Handle") then
+			v.Parent = game.Players.LocalPlayer.Character
+			firetouchinterest(plr.Character.Humanoid.RootPart, v.Handle, 0)
+			end
+end
+end
+	end})
+Tab:AddButton({
+	Name = "스폰킬 방지 보호막 삭제",
+	Callback = function()
+	    pcall(function()
+      		workspace["광신도스폰킬방지"]:Destroy()
+      		workspace["군인스폰킬방지"]:Destroy()
+      		end)
+  	end    
+})
+local Tab = Window:MakeTab({
+	Name = "아이템",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local Section = Tab:AddSection({
+	Name = "아이템"
+})
+Tab:AddDropdown({
+	Name = "아이템 스폰",
+	Default = nil,
+	Options = {"영웅의 샷건(패치)", "신의 심판(패치)","엑시큐셔너","흑도","SMG_X","피칼","골드 나이프","골드건","슈퍼 로켓 런처","로켓 런처","K2","연필","우지","선물발사기","식용분필","얼음총","맛있는빵","스카","유탄발사기"},
+	Callback = function(w)
+	    if w == "영웅의 샷건(패치)" then
+	    _G.tool = "Shotgun_Hero"
+	    elseif w == "신의 심판(패치)" then
+	        _G.tool = "Judgment"
+	    elseif w=="로켓 런처" then
+            _G.tool = "RocketLauncher"
+	    elseif w == "슈퍼 로켓 런처" then
+            _G.tool = "SuperRocketLauncher"
+	         elseif w == "흑도" then
+	        _G.tool = "Katana"
+	        elseif w == "엑시큐셔너" then
+	        _G.tool = "Executioner"
+	        elseif w == "SMG_X" then
+	        _G.tool = "SMG_X"
+	        elseif w == "연필" then
+	         _G.tool = "Pencil"
+	        elseif w == "피칼" then
+	         _G.tool = "BloodKnife"
+	        elseif w == "골드 나이프" then
+	         _G.tool = "GoldenKnife"
+	        elseif w == "골드건" then
+	         _G.tool = "GoldenPistol"
+	        elseif w == "맛있는빵" then
+	         _G.tool = "Bread"
+	        elseif w == "K2" then
+	         _G.tool = "K2"
+	        elseif w == "우지" then
+             _G.tool = "UZI"
+	        elseif w == "선물발사기" then
+             _G.tool = "PresentLauncher"
+	        elseif w == "식용분필" then
+	            _G.tool = "Chalk_edible"
+	        elseif w == "얼음총" then
+                _G.tool = "IceGun"
+	        elseif w == "스카" then
+                _G.tool = "SCAR"
+	        elseif w == "유탄발사기" then
+	            _G.tool = "GrenadeLauncher"
+	        end
+	        pcall(function()
+		fireclickdetector(game.Players.LocalPlayer.PlayerGui.Model[_G.tool].ToolGiver.ClickDetector)
+end)
+end
+})
+Tab:AddDropdown({
+	Name = "주변 탄 자동파밍",
+	Default = nil,
+	Options = {"자동 소총 탄알","샷건 탄알","SMG 탄알","로켓","스나이퍼 탄알","유탄 상자","권총 탄알"},
+	Callback = function(w)
+	    if w == "자동 소총 탄알" then
+	        _G.toolp = "ARAmmo"
+	    elseif w == "샷건 탄알" then
+            _G.toolp = "ShotgunAmmo"
+	    elseif w == "SMG 탄알" then
+            _G.toolp = "SMGAmmo"
+	    elseif w == "로켓" then
+            _G.toolp = "Rocket"
+	    elseif w == "스나이퍼 탄알" then
+            _G.toolp = "SniperAmmo"
+	    elseif w == "유탄 상자" then
+            _G.toolp = "Grenade"
+	    elseif w == "권총 탄알" then
+            _G.toolp = "PistolAmmo"
+	    end
+          for _,v in pairs(workspace:GetDescendants())do
+    pcall(function()
+        if v.Parent.Parent.Name == _G.toolp then
+if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Parent.Position).magnitude < 30 then
+    fireclickdetector(v)
+end
+end
+    end)
+      		end
+	end
+   })
+   Tab:AddToggle({
+	Name = "죽을때 템 떨구기 X",
+	Default = false,
+	Callback = function(tqtq)
+	    _G.ppppppppppppppppp = tqtq
+	    while _G.ppppppppppppppppp do task.wait(.5)
+	        pcall(function()
+	        game.Players.LocalPlayer.Character["템떨구기"]:Destroy()
+	        end)
+	        end
+      end
+  		})
+local Tab = Window:MakeTab({
+	Name = "Kill",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local Section = Tab:AddSection({
+	Name = "Kill"
+})
+Tab:AddToggle({
+	Name = "선물 발사기 킬아우라",
+	Default = false,
+	Callback = function(Value)
+		_G.killllllll = Value
+		while _G.killllllll do task.wait(_G.coolTime)
+		    for i, v in pairs(game.Players:GetPlayers()) do
+    if v ~= game.Players.LocalPlayer then
+        pcall(function()
+            if v.Character.Humanoid.Health ~= 0 then
+if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).magnitude < _G.reach then
+    pcall(function()
+    game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService'Players'.LocalPlayer.Backpack.PresentLauncher)
+    end)
+local args = {
+    [1] = game:GetService("Players").LocalPlayer.Character.PresentLauncher,
+    [2] = {
+        ["p"] = game.Players.LocalPlayer.Character.HumanoidRootPart.Position,
+        ["pid"] = 1,
+        ["part"] = v.Character.HumanoidRootPart,
+        ["d"] = 153.86590576171875,
+        ["maxDist"] = 153.8323974609375,
+        ["h"] = v.Character.Humanoid,
+        ["m"] = Enum.Material.Plastic,
+        ["sid"] = 2,
+        ["t"] = 0.6029243280017262,
+        ["n"] = Vector3.new(-0.10129786282777786, 0, -0.9948562383651733)
+    }
+}
+game:GetService("ReplicatedStorage").WeaponsSystem.Network.WeaponHit:FireServer(unpack(args))
+game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
+task.wait()
+end
+end
+end)
+end
+		end
+	    end
+	end	  
+})
+Tab:AddSlider({
+	Name = "킬아우라 공속",
+	Min = .1,
+	Max = 5,
+	Default = 1,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = .2,
+	ValueName = "공속",
+	Callback = function(Value)
+		_G.coolTime = Value
+	end    
+})
+Tab:AddSlider({
+	Name = "킬아우라 범위",
+	Min = 15,
+	Max = 300,
+	Default = 30,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "범위",
+	Callback = function(Value)
+		_G.reach = Value
+	end    
+})
+Tab:AddToggle({
+	Name = "HITBOX",
+	Default = false,
+	Callback = function(Value)
+_G.Disabled = Value
+while _G.Disabled do task.wait()
+    pcall(function()
+if _G.Disabled then
+for i,v in next, game:GetService('Players'):GetPlayers() do
+if v ~= game:GetService('Players').LocalPlayer then
+v.Character.HumanoidRootPart.Size = Vector3.new(25,25,25)
+v.Character.HumanoidRootPart.Transparency = 0.7
+v.Character.HumanoidRootPart.CanCollide = false
+end
+end
+end
+end)
+end
+	end    
+})
+local Tab = Window:MakeTab({
+	Name = "Zombie",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local Section = Tab:AddSection({
+	Name = "Kill"
+})
+Tab:AddToggle({
+	Name = "킬 아우라 (킬 카운트 X)",
+	Default = false,
+	Callback = function(Value)
+	    _G.Killtest = Value
+while _G.Killtest do task.wait(.3)
+    pcall(function()
+
+for i, v in pairs(workspace["좀비 스포너"]:GetChildren()) do
+        for _, _v in pairs(v:GetChildren()) do
+            if _v.ClassName == "Model" then
+                pcall(function()
+         if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - _v.HumanoidRootPart.Position).magnitude <= 25 then
+     _v.Humanoid.Health = 0
+         end
+                end)
+     end
+end
+end
+for i, v in pairs(workspace["도시좀비"]:GetChildren()) do
+    for _, _v in pairs(v:GetChildren()) do
+            if _v.ClassName == "Model" then
+    pcall(function()
+        if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - _v.HumanoidRootPart.Position).magnitude <= 25 then
+     _v.Humanoid.Health = 0
+    end
+    end)
+            end
+end
+end
+pcall(function()
+     if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - workspace["Mr.X"].HumanoidRootPart.Position).magnitude <= 25 then
+    workspace["Mr.X"].Humanoid.Health = 0
+    end
+end)
+end)
+end
+	end
+    })
